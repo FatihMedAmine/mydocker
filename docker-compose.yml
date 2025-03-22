@@ -1,0 +1,29 @@
+services:
+  api:
+    build: ./simple_api
+    ports:
+      - "5000:5000"
+    volumes:
+      - data:/data 
+    networks:
+      - app_network
+
+  website:
+    image: php:apache
+    volumes:
+      - ./website:/var/www/html
+    depends_on:
+      - api
+    ports:
+      - "80:80"
+    environment:
+      - USERNAME=root
+      - PASSWORD=root
+    networks:
+      - app_network
+
+networks:
+  app_network:
+
+volumes:
+  data: 
